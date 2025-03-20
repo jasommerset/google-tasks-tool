@@ -22,7 +22,7 @@ Param: title: The title of the new task list
 ---
 Name: List Tasks
 Description: Lists all tasks in a specified task list
-Credential: ./credential
+Credential: ../google/credential
 Param: tasklist_id: The ID of the task list to list tasks from
 
 #!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py list_tasks
@@ -30,7 +30,7 @@ Param: tasklist_id: The ID of the task list to list tasks from
 ---
 Name: Create Task
 Description: Creates a new task in a specified task list
-Credential: ./credential
+Credential: ../google/credential
 Param: tasklist_id: The ID of the task list to create the task in
 Param: title: The title of the new task
 Param: notes: Optional notes or description for the task
@@ -42,7 +42,7 @@ Param: previous_id: Optional previous sibling task ID for positioning
 ---
 Name: Update Task
 Description: Updates an existing task's title, notes, and status
-Credential: ./credential
+Credential: ../google/credential
 Param: tasklist_id: The ID of the task list containing the task
 Param: task_id: The ID of the task to update
 Param: title: The new title for the task
@@ -54,7 +54,7 @@ Param: status: Optional status update (needsAction or completed)
 ---
 Name: Move Task
 Description: Moves a task to a new position or parent
-Credential: ./credential
+Credential: ../google/credential
 Param: tasklist_id: The ID of the task list containing the task
 Param: task_id: The ID of the task to move
 Param: parent_id: Optional new parent task ID
