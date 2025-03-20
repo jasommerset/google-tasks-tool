@@ -4,6 +4,8 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+# Define the scope needed for Google Tasks API
+TASKS_SCOPE = 'https://www.googleapis.com/auth/tasks'
 
 def client(service_name: str = 'tasks', version: str = 'v1'):
     """Creates and returns an authenticated Google service client.
@@ -23,13 +25,19 @@ def client(service_name: str = 'tasks', version: str = 'v1'):
     if token is None:
         raise ValueError("GOOGLE_OAUTH_TOKEN environment variable is not set")
 
-    creds = Credentials(token=token)
     try:
-        service = build(serviceName=service_name, version=version, credentials=creds)
+        creds = Credentials(
+            token=token,
+            scopes=[TASKS_SCOPE]
+        )
+        service = build(service_name, version, credentials=creds)
         return service
     except HttpError as err:
-        print(err)
-        exit(1)
+        print(f"Error building service: {err}")
+        raise
+    except Exception as err:
+        print(f"Unexpected error: {err}")
+        raise
 
 
 def get_tasks_service():
