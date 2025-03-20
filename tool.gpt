@@ -1,0 +1,95 @@
+---
+Name: Google Tasks
+Description: Tools for managing Google Tasks and Task Lists
+Metadata: bundle: true
+Share Tools: List Task Lists, Create Task List, List Tasks, Create Task, Update Task, Move Task
+
+---
+Name: List Task Lists
+Description: Returns all task lists for the authenticated user
+Credential: ../google/credential
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py list_tasklists
+
+---
+Name: Create Task List
+Description: Creates a new task list
+Credential: ../google/credential
+Param: title: The title of the new task list
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py create_tasklist
+
+---
+Name: List Tasks
+Description: Lists all tasks in a specified task list
+Credential: ./credential
+Param: tasklist_id: The ID of the task list to list tasks from
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py list_tasks
+
+---
+Name: Create Task
+Description: Creates a new task in a specified task list
+Credential: ./credential
+Param: tasklist_id: The ID of the task list to create the task in
+Param: title: The title of the new task
+Param: notes: Optional notes or description for the task
+Param: parent_id: Optional parent task ID for creating subtasks
+Param: previous_id: Optional previous sibling task ID for positioning
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py create_task
+
+---
+Name: Update Task
+Description: Updates an existing task's title, notes, and status
+Credential: ./credential
+Param: tasklist_id: The ID of the task list containing the task
+Param: task_id: The ID of the task to update
+Param: title: The new title for the task
+Param: notes: Optional notes or description for the task
+Param: status: Optional status update (needsAction or completed)
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py update_task
+
+---
+Name: Move Task
+Description: Moves a task to a new position or parent
+Credential: ./credential
+Param: tasklist_id: The ID of the task list containing the task
+Param: task_id: The ID of the task to move
+Param: parent_id: Optional new parent task ID
+Param: previous_id: Optional new previous sibling task ID
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/tasks.py move_task
+
+---
+Name: Google Tasks Context
+Type: context
+
+#!sys.echo
+
+## Instructions for using Google Tasks tools
+
+You have access to a set of tools to manage Google Tasks and Task Lists.
+When creating or moving tasks, you can organize them hierarchically using parent_id and previous_id parameters.
+
+Important limitations:
+- Maximum 20,000 non-hidden tasks per list
+- Maximum 100,000 tasks total
+- Maximum 2,000 subtasks per task
+- Assigned tasks cannot be parents or become subtasks
+- Completed+hidden tasks have special movement restrictions
+
+When listing tasks, the hierarchy will be preserved in the output.
+When creating subtasks, ensure the parent task exists and is not an assigned task.
+When moving tasks, verify the destination position is valid considering the above limitations.
+
+## End of instructions for using Google Tasks tools
+
+---
+!metadata:*:icon
+/admin/assets/google_tasks_icon_small.png
+
+---
+!metadata:*:oauth
+google-tasks 
